@@ -1,0 +1,46 @@
+{
+  "name": "botframework-webchat-embed",
+  "version": "1.0.0",
+  "description": "Zero-JavaScript wrapper for embedding BotFramework WebChat using data attributes",
+  "type": "module",
+  "main": "dist/webchat-embed.js",
+  "module": "dist/webchat-embed.esm.js",
+  "unpkg": "dist/webchat-embed.min.js",
+  "jsdelivr": "dist/webchat-embed.min.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "webchat",
+    "botframework",
+    "chatbot",
+    "direct-line",
+    "microsoft",
+    "embed",
+    "copilot-studio"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/botframework-webchat-embed.git"
+  },
+  "homepage": "https://github.com/microsoft/botframework-webchat-embed#readme",
+  "bugs": {
+    "url": "https://github.com/microsoft/botframework-webchat-embed/issues"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.9.0"
+  }
+}

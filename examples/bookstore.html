@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PageTurner Books - Online Bookstore</title>
+  <style>
+    /* Site-wide CSS variables - webchat-inject auto-detects these */
+    :root {
+      --primary-color: #2c1810;
+      --border-radius: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #faf8f5;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #2c1810;
+      color: #f5e6d3;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #d4a574;
+    }
+
+    nav a {
+      color: #f5e6d3;
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    nav a:hover {
+      color: #d4a574;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #3d2317 0%, #1a0f0a 100%);
+      color: white;
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      font-weight: normal;
+    }
+
+    .hero p {
+      font-size: 18px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .books-section {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .books-section h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: #2c1810;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 30px;
+    }
+
+    .book-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .book-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .book-cover {
+      height: 280px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .book-card:nth-child(2) .book-cover { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .book-card:nth-child(3) .book-cover { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .book-card:nth-child(4) .book-cover { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+    .book-info {
+      padding: 20px;
+    }
+
+    .book-info h3 {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #2c1810;
+    }
+
+    .book-info .author {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .book-info .price {
+      font-size: 18px;
+      color: #d4a574;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #2c1810;
+      color: #f5e6d3;
+      padding: 40px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* Chat widget container - fixed position bottom right */
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 380px;
+      height: 550px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    /* Responsive: hide chat on very small screens */
+    @media (max-width: 480px) {
+      .chat-widget {
+        width: calc(100% - 20px);
+        right: 10px;
+        left: 10px;
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Page<span>Turner</span> Books</div>
+    <nav>
+      <a href="#">Browse</a>
+      <a href="#">New Releases</a>
+      <a href="#">Bestsellers</a>
+      <a href="#">About</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Discover Your Next Great Read</h1>
+    <p>Explore thousands of titles across every genre. Use our AI assistant to find the perfect book for you.</p>
+  </section>
+
+  <section class="books-section">
+    <h2>Featured Books</h2>
+    <div class="books-grid">
+      <div class="book-card">
+        <div class="book-cover">The Midnight Library</div>
+        <div class="book-info">
+          <h3>The Midnight Library</h3>
+          <p class="author">Matt Haig</p>
+          <p class="price">$16.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">Atomic Habits</div>
+        <div class="book-info">
+          <h3>Atomic Habits</h3>
+          <p class="author">James Clear</p>
+          <p class="price">$14.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">Project Hail Mary</div>
+        <div class="book-info">
+          <h3>Project Hail Mary</h3>
+          <p class="author">Andy Weir</p>
+          <p class="price">$18.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">The Song of Achilles</div>
+        <div class="book-info">
+          <h3>The Song of Achilles</h3>
+          <p class="author">Madeline Miller</p>
+          <p class="price">$15.99</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 PageTurner Books. This is a demo site for webchat-inject.</p>
+  </footer>
+
+  <!--
+    Optional: Define additional styleOptions via a global variable.
+    These override auto-detected styles but are overridden by data-webchat-style-* attributes.
+  -->
+  <script>
+    window.bookstoreStyles = {
+      bubbleBackground: '#f5e6d3',
+      bubbleFromUserBackground: '#2c1810',
+      bubbleFromUserTextColor: '#ffffff'
+    };
+  </script>
+
+  <!--
+    WebChat widget using webchat-inject
+    - Accent color is auto-detected from :root --primary-color
+    - Font is auto-inherited from the container (Georgia)
+    - Border radius is auto-detected from :root --border-radius
+    - Additional styles come from the bookstoreStyles object
+  -->
+  <div
+    class="chat-widget"
+    data-webchat-token-url="https://YOUR_COPILOT_STUDIO_TOKEN_ENDPOINT"
+    data-webchat-title="Book Search Assistant"
+    data-webchat-bubble-text="Need help?"
+    data-webchat-preload="false"
+    data-webchat-send-start-event="true"
+    data-webchat-user-id="bookstore-visitor"
+    data-webchat-username="Visitor"
+    data-webchat-style-options="bookstoreStyles">
+  </div>
+
+  <!-- Load webchat-inject (use local build for testing, CDN for production) -->
+  <script src="../dist/webchat-embed.js"></script>
+</body>
+</html>

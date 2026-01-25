@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Cozy Nook - Indie Bookshop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Site-wide CSS variables - webchat-inject auto-detects these */
+    :root {
+      --primary-color: #b45309;
+      --border-radius: 4px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: #fffbeb;
+      color: #451a03;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #fef3c7;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #fde68a;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #92400e;
+    }
+
+    .logo span {
+      font-style: italic;
+      color: #b45309;
+    }
+
+    nav a {
+      color: #78350f;
+      text-decoration: none;
+      margin-left: 28px;
+      font-size: 15px;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+
+    nav a:hover {
+      border-color: #b45309;
+    }
+
+    .hero {
+      padding: 80px 40px;
+      text-align: center;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fde68a' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #78350f;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #92400e;
+      max-width: 550px;
+      margin: 0 auto 24px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: #b45309;
+      margin: 0 auto;
+    }
+
+    .books-section {
+      padding: 60px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .books-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      margin-bottom: 12px;
+      text-align: center;
+      color: #78350f;
+    }
+
+    .books-section .subtitle {
+      text-align: center;
+      color: #92400e;
+      margin-bottom: 40px;
+      font-style: italic;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 32px;
+    }
+
+    .book-card {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(120, 53, 15, 0.1);
+      border: 1px solid #fde68a;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .book-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(120, 53, 15, 0.15);
+    }
+
+    .book-cover {
+      height: 280px;
+      background: linear-gradient(145deg, #d97706 0%, #b45309 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .book-card:nth-child(2) .book-cover { background: linear-gradient(145deg, #059669 0%, #047857 100%); }
+    .book-card:nth-child(3) .book-cover { background: linear-gradient(145deg, #7c3aed 0%, #6d28d9 100%); }
+    .book-card:nth-child(4) .book-cover { background: linear-gradient(145deg, #dc2626 0%, #b91c1c 100%); }
+
+    .book-info {
+      padding: 20px;
+    }
+
+    .book-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #78350f;
+    }
+
+    .book-info .author {
+      font-size: 14px;
+      color: #92400e;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .book-info .price {
+      font-size: 18px;
+      color: #b45309;
+      font-weight: 500;
+    }
+
+    footer {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 48px 40px;
+      text-align: center;
+      font-size: 14px;
+      border-top: 2px solid #fde68a;
+    }
+
+    footer .quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-style: italic;
+      color: #78350f;
+      margin-bottom: 16px;
+    }
+
+    /* Chat widget container */
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 360px;
+      height: 520px;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(120, 53, 15, 0.2);
+      border: 2px solid #fde68a;
+      z-index: 1000;
+    }
+
+    @media (max-width: 480px) {
+      .chat-widget {
+        width: calc(100% - 20px);
+        right: 10px;
+        left: 10px;
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">The Cozy <span>Nook</span></div>
+    <nav>
+      <a href="#">Our Shelves</a>
+      <a href="#">Staff Picks</a>
+      <a href="#">Events</a>
+      <a href="#">Visit Us</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Where Stories Find You</h1>
+    <p>A carefully curated collection of beloved classics and hidden gems, handpicked by our passionate booksellers since 1987.</p>
+    <div class="divider"></div>
+  </section>
+
+  <section class="books-section">
+    <h2>Staff Favorites</h2>
+    <p class="subtitle">Books we can't stop recommending</p>
+    <div class="books-grid">
+      <div class="book-card">
+        <div class="book-cover">The Midnight Library</div>
+        <div class="book-info">
+          <h3>The Midnight Library</h3>
+          <p class="author">by Matt Haig</p>
+          <p class="price">$16.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">Atomic Habits</div>
+        <div class="book-info">
+          <h3>Atomic Habits</h3>
+          <p class="author">by James Clear</p>
+          <p class="price">$14.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">Project Hail Mary</div>
+        <div class="book-info">
+          <h3>Project Hail Mary</h3>
+          <p class="author">by Andy Weir</p>
+          <p class="price">$18.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">The Song of Achilles</div>
+        <div class="book-info">
+          <h3>The Song of Achilles</h3>
+          <p class="author">by Madeline Miller</p>
+          <p class="price">$15.99</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="quote">"A room without books is like a body without a soul."</p>
+    <p>&copy; 2025 The Cozy Nook. Demo for webchat-inject style inheritance.</p>
+  </footer>
+
+  <!--
+    Minimal config - styles are auto-inherited:
+    - Accent color from --primary-color (#b45309 amber)
+    - Border radius from --border-radius (4px - sharp corners)
+    - Font from body (Lora serif)
+  -->
+  <div
+    class="chat-widget"
+    data-webchat-token-url="https://YOUR_COPILOT_STUDIO_TOKEN_ENDPOINT"
+    data-webchat-title="Ask a Bookseller"
+    data-webchat-bubble-text="Need a recommendation?">
+  </div>
+
+  <script src="../dist/webchat-embed.js"></script>
+</body>
+</html>

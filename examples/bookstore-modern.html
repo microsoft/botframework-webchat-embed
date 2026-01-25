@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHELF - Modern Book Discovery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Site-wide CSS variables - webchat-inject auto-detects these */
+    :root {
+      --primary-color: #6366f1;
+      --border-radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0f0f12;
+      color: #e4e4e7;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #18181b;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #27272a;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #fff;
+    }
+
+    .logo span {
+      color: #6366f1;
+    }
+
+    nav a {
+      color: #a1a1aa;
+      text-decoration: none;
+      margin-left: 32px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    .hero {
+      padding: 100px 40px;
+      text-align: center;
+      background: linear-gradient(180deg, #18181b 0%, #0f0f12 100%);
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #71717a;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-btn {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .hero-btn:hover {
+      background: #4f46e5;
+    }
+
+    .books-section {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .books-section h2 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #6366f1;
+      margin-bottom: 32px;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 24px;
+    }
+
+    .book-card {
+      background: #18181b;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #27272a;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .book-card:hover {
+      transform: translateY(-4px);
+      border-color: #6366f1;
+    }
+
+    .book-cover {
+      height: 240px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .book-card:nth-child(2) .book-cover { background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%); }
+    .book-card:nth-child(3) .book-cover { background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%); }
+    .book-card:nth-child(4) .book-cover { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); }
+
+    .book-info {
+      padding: 16px;
+    }
+
+    .book-info h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .book-info .author {
+      font-size: 12px;
+      color: #71717a;
+      margin-bottom: 8px;
+    }
+
+    .book-info .price {
+      font-size: 16px;
+      color: #6366f1;
+      font-weight: 600;
+    }
+
+    footer {
+      background: #18181b;
+      color: #71717a;
+      padding: 40px;
+      text-align: center;
+      font-size: 13px;
+      border-top: 1px solid #27272a;
+    }
+
+    /* Chat widget container */
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 380px;
+      height: 550px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    @media (max-width: 480px) {
+      .chat-widget {
+        width: calc(100% - 20px);
+        right: 10px;
+        left: 10px;
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">SHELF<span>.</span></div>
+    <nav>
+      <a href="#">Discover</a>
+      <a href="#">Categories</a>
+      <a href="#">Trending</a>
+      <a href="#">About</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Read Different</h1>
+    <p>AI-powered book recommendations tailored to your unique taste.</p>
+    <button class="hero-btn">Get Started</button>
+  </section>
+
+  <section class="books-section">
+    <h2>Trending Now</h2>
+    <div class="books-grid">
+      <div class="book-card">
+        <div class="book-cover">The Midnight Library</div>
+        <div class="book-info">
+          <h3>The Midnight Library</h3>
+          <p class="author">Matt Haig</p>
+          <p class="price">$16.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">Atomic Habits</div>
+        <div class="book-info">
+          <h3>Atomic Habits</h3>
+          <p class="author">James Clear</p>
+          <p class="price">$14.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">Project Hail Mary</div>
+        <div class="book-info">
+          <h3>Project Hail Mary</h3>
+          <p class="author">Andy Weir</p>
+          <p class="price">$18.99</p>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover">The Song of Achilles</div>
+        <div class="book-info">
+          <h3>The Song of Achilles</h3>
+          <p class="author">Madeline Miller</p>
+          <p class="price">$15.99</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 SHELF. Demo for webchat-inject style inheritance.</p>
+  </footer>
+
+  <!--
+    Minimal config - styles are auto-inherited:
+    - Accent color from --primary-color (#6366f1 indigo)
+    - Border radius from --border-radius (16px)
+    - Font from body (Inter)
+  -->
+  <div
+    class="chat-widget"
+    data-webchat-token-url="https://YOUR_COPILOT_STUDIO_TOKEN_ENDPOINT"
+    data-webchat-title="SHELF Assistant"
+    data-webchat-bubble-text="Ask AI">
+  </div>
+
+  <script src="../dist/webchat-embed.js"></script>
+</body>
+</html>
