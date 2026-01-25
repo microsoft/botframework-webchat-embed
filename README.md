@@ -27,32 +27,6 @@ That's it! The script automatically finds elements with `data-webchat-token-url`
 - **Restart conversation** - Built-in button to start fresh
 - **Fully customizable** - Control colors, fonts, and WebChat styleOptions
 
-## Token Endpoint
-
-Your token endpoint must return JSON with a Direct Line token:
-
-```json
-{ "token": "YOUR_DIRECT_LINE_TOKEN" }
-```
-
-Example Express.js endpoint:
-
-```javascript
-app.get('/api/directline/token', async (req, res) => {
-  const response = await fetch(
-    'https://directline.botframework.com/v3/directline/tokens/generate',
-    {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${process.env.DIRECT_LINE_SECRET}` }
-    }
-  );
-  const data = await response.json();
-  res.json({ token: data.token });
-});
-```
-
-For **Copilot Studio**, use the Direct Line token endpoint from your agent's settings.
-
 ## Supported Attributes
 
 ### Required
