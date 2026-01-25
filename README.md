@@ -2,6 +2,8 @@
 
 Embed BotFramework WebChat into any HTML page using data attributes. No JavaScript knowledge required.
 
+![Screenshot](docs/screenshot.png)
+
 ## Quick Start
 
 ```html
