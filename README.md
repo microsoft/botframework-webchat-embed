@@ -149,19 +149,6 @@ You control the widget size via CSS on the container element:
 <script src="https://cdn.jsdelivr.net/npm/botframework-webchat-embed@1.0.0"></script>
 ```
 
-## Programmatic API
-
-For advanced use cases:
-
-```javascript
-// Re-initialize all containers
-window.WebChatEmbed.init();
-
-// Initialize a specific element
-const el = document.getElementById('my-chat');
-window.WebChatEmbed.initElement(el);
-```
-
 ## License
 
 MIT License - See [LICENSE](LICENSE) file.
