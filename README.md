@@ -27,6 +27,23 @@ That's it! The script automatically finds elements with `data-webchat-token-url`
 - **Restart conversation** - Built-in button to start fresh
 - **Fully customizable** - Control colors, fonts, and WebChat styleOptions
 
+## Getting Your Token Endpoint (Copilot Studio)
+
+1. In the navigation menu under **Settings**, select **Channels**
+2. Select **Email** - the configuration panel appears
+3. Next to **Token Endpoint**, select **Copy**
+
+Use this URL as the `data-webchat-token-url` value.
+
+## Limitations
+
+This library currently only supports **Copilot Studio agents with no authentication**. It does not support:
+
+- Direct Line secrets
+- Authenticated agents (Entra ID, etc.)
+
+For agents requiring authentication, use the [BotFramework WebChat SDK](https://github.com/microsoft/BotFramework-WebChat) directly.
+
 ## Supported Attributes
 
 ### Required
