@@ -61,6 +61,7 @@ For agents requiring authentication, use the [BotFramework WebChat SDK](https://
 | `data-webchat-minimized` | `true` | Start minimized (show bubble) |
 | `data-webchat-preload` | `false` | Load conversation on page load (even if minimized) |
 | `data-webchat-send-start-event` | `true` | Send `startConversation` event to trigger welcome message |
+| `data-webchat-mock-welcome` | *(none)* | Show a client-side mock welcome message instead of calling the agent |
 
 ### User Identity
 
@@ -135,6 +136,33 @@ See [WebChat styleOptions](https://github.com/microsoft/BotFramework-WebChat/blo
 2. **`data-webchat-style-options`** object - overrides auto-detected
 3. **`data-webchat-style-*`** attributes - highest priority
 
+## Mock Welcome Message
+
+By default, the widget sends a `startConversation` event to trigger the agent's welcome message. This counts as a message in your usage metrics.
+
+To show a client-side mock welcome message instead (no agent call), use `data-webchat-mock-welcome`:
+
+```html
+<!-- Default mock message -->
+<div
+  data-webchat-token-url="..."
+  data-webchat-mock-welcome>
+</div>
+
+<!-- Custom mock message -->
+<div
+  data-webchat-token-url="..."
+  data-webchat-mock-welcome="Hi! How can I help you today?">
+</div>
+```
+
+When enabled:
+- A fake welcome message is injected client-side when the chat opens
+- The `startConversation` event is **not** sent (even if `data-webchat-send-start-event="true"`)
+- No agent message consumption occurs until the user actually sends a message
+
+This is useful for reducing costs when many visitors open the chat but don't engage.
+
 ## Container Sizing
 
 You control the widget size via CSS on the container element:
@@ -163,7 +191,7 @@ You control the widget size via CSS on the container element:
 <script src="https://unpkg.com/botframework-webchat-embed"></script>
 
 <!-- Specific version -->
-<script src="https://cdn.jsdelivr.net/npm/botframework-webchat-embed@1.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/botframework-webchat-embed@1.0.1"></script>
 ```
 
 ## License
