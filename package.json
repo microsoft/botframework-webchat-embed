@@ -1,6 +1,6 @@
 {
   "name": "botframework-webchat-embed",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Zero-JavaScript wrapper for embedding BotFramework WebChat using data attributes",
   "type": "module",
   "main": "dist/webchat-embed.js",
