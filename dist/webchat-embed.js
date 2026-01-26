@@ -276,7 +276,7 @@
     /**
      * Render WebChat into a container
      */
-    async function renderChat(chatContainer, element, tokenUrl, sendStartEvent) {
+    async function renderChat(chatContainer, element, tokenUrl, sendStartEvent, mockWelcome) {
       const token = await fetchToken(tokenUrl);
       const directLine = window.WebChat.createDirectLine({ token });
 
@@ -294,12 +294,38 @@
       const locale = element.getAttribute(`${ATTR_PREFIX}locale`);
       if (locale) options.locale = locale;
 
+      // If mock welcome is enabled, create a store that injects a fake welcome message
+      if (mockWelcome) {
+        const mockWelcomeText = element.getAttribute(`${ATTR_PREFIX}mock-welcome-text`)
+          || element.getAttribute(`${ATTR_PREFIX}mock-welcome`)
+          || 'Welcome! How can I help you today?';
+
+        options.store = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
+          if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+            dispatch({
+              type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+              payload: {
+                activity: {
+                  type: 'message',
+                  id: 'welcome-' + Date.now(),
+                  timestamp: new Date().toISOString(),
+                  from: { id: 'bot', role: 'bot' },
+                  text: mockWelcomeText
+                }
+              }
+            });
+          }
+          return next(action);
+        });
+      }
+
       // Clear and render
       chatContainer.innerHTML = '';
       window.WebChat.renderWebChat(options, chatContainer);
 
       // Send conversation start event to trigger agent welcome message
-      if (sendStartEvent) {
+      // Skip if mock welcome is enabled (we're showing a fake message instead)
+      if (sendStartEvent && !mockWelcome) {
         directLine.postActivity({
           type: 'event',
           name: 'startConversation',
@@ -329,6 +355,7 @@
       const startMinimized = element.getAttribute(`${ATTR_PREFIX}minimized`) !== 'false';
       const preload = element.getAttribute(`${ATTR_PREFIX}preload`) === 'true';
       const sendStartEvent = element.getAttribute(`${ATTR_PREFIX}send-start-event`) !== 'false';
+      const mockWelcome = element.hasAttribute(`${ATTR_PREFIX}mock-welcome`);
 
       // Detect accent color: explicit attribute > CSS variables > default
       const detectedAccent = detectCSSVariable(
@@ -438,7 +465,7 @@
       async function initChat(triggerStartEvent = true) {
         try {
           await loadWebChatScript();
-          await renderChat(chatContainer, element, tokenUrl, sendStartEvent && triggerStartEvent);
+          await renderChat(chatContainer, element, tokenUrl, sendStartEvent && triggerStartEvent, mockWelcome);
           chatInitialized = true;
         } catch (error) {
           console.error('webchat-embed: Initialization failed', error);
@@ -456,7 +483,7 @@
         container.replaceChild(chatContainer, oldContainer);
 
         try {
-          await renderChat(chatContainer, element, tokenUrl, sendStartEvent);
+          await renderChat(chatContainer, element, tokenUrl, sendStartEvent, mockWelcome);
         } catch (error) {
           console.error('webchat-embed: Restart failed', error);
           chatContainer.textContent = 'Failed to restart. Please try again.';
