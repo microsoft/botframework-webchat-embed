@@ -276,7 +276,13 @@
    */
   async function renderChat(chatContainer, element, tokenUrl, sendStartEvent, mockWelcome) {
     const token = await fetchToken(tokenUrl);
-    const directLine = window.WebChat.createDirectLine({ token });
+
+    // Build DirectLine options
+    const directLineOptions = { token };
+    const domain = element.getAttribute(`${ATTR_PREFIX}domain`);
+    if (domain) directLineOptions.domain = domain;
+
+    const directLine = window.WebChat.createDirectLine(directLineOptions);
 
     const options = {
       directLine,

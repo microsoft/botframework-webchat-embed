@@ -62,6 +62,7 @@ For agents requiring authentication, use the [BotFramework WebChat SDK](https://
 | `data-webchat-preload` | `false` | Load conversation on page load (even if minimized) |
 | `data-webchat-send-start-event` | `true` | Send `startConversation` event to trigger welcome message |
 | `data-webchat-mock-welcome` | *(none)* | Show a client-side mock welcome message instead of calling the agent |
+| `data-webchat-domain` | *(default)* | Custom Direct Line domain URL (e.g., for regional endpoints or Azure Government) |
 
 ### User Identity
 
