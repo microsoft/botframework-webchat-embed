@@ -15,6 +15,7 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
+    "test": "node --test test/**/*.test.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

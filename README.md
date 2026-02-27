@@ -163,6 +163,12 @@ When enabled:
 
 This is useful for reducing costs when many visitors open the chat but don't engage.
 
+## Regional Support
+
+The widget automatically detects the correct regional Direct Line endpoint for your Copilot Studio agent. When using a Copilot Studio token endpoint, the library queries the `regionalchannelsettings` API to determine the correct Direct Line domain (e.g., Europe, India) and passes it to WebChat. No manual configuration is needed.
+
+This resolves issues where EU-hosted or other regional agents would fail with `RegionNotAllowed` errors.
+
 ## Container Sizing
 
 You control the widget size via CSS on the container element:

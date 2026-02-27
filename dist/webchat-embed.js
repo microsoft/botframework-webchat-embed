@@ -255,6 +255,45 @@
     }
 
     /**
+     * Derive the regional channel settings URL from a Copilot Studio token endpoint URL.
+     * Token URL format: https://{env}.environment.api.powerplatform.com/powervirtualagents/botsbyschema/{bot}/directline/token?api-version={ver}
+     * Regional URL: https://{env}.environment.api.powerplatform.com/powervirtualagents/regionalchannelsettings?api-version={ver}
+     */
+    function getRegionalChannelSettingsUrl(tokenUrl) {
+      const pvaIndex = tokenUrl.indexOf('/powervirtualagents');
+      if (pvaIndex === -1) return null;
+
+      const environmentEndpoint = tokenUrl.slice(0, pvaIndex);
+      const apiVersionMatch = tokenUrl.match(/api-version=([^&]+)/);
+      const apiVersion = apiVersionMatch ? apiVersionMatch[1] : '2022-03-01-preview';
+
+      return `${environmentEndpoint}/powervirtualagents/regionalchannelsettings?api-version=${apiVersion}`;
+    }
+
+    /**
+     * Fetch the regional Direct Line domain from Copilot Studio.
+     * Returns the domain URL (e.g. "https://europe.directline.botframework.com/v3/directline") or null.
+     */
+    async function fetchRegionalDomain(tokenUrl) {
+      const settingsUrl = getRegionalChannelSettingsUrl(tokenUrl);
+      if (!settingsUrl) return null;
+
+      try {
+        const response = await fetch(settingsUrl);
+        if (!response.ok) return null;
+
+        const data = await response.json();
+        const directLineUrl = data.channelUrlsById && data.channelUrlsById.directline;
+        if (!directLineUrl) return null;
+
+        // Append v3/directline path, ensuring no double slash
+        return directLineUrl.replace(/\/$/, '') + '/v3/directline';
+      } catch {
+        return null;
+      }
+    }
+
+    /**
      * Fetch Direct Line token from endpoint
      */
     async function fetchToken(tokenUrl) {
@@ -277,8 +316,15 @@
      * Render WebChat into a container
      */
     async function renderChat(chatContainer, element, tokenUrl, sendStartEvent, mockWelcome) {
-      const token = await fetchToken(tokenUrl);
-      const directLine = window.WebChat.createDirectLine({ token });
+      const [token, domain] = await Promise.all([
+        fetchToken(tokenUrl),
+        fetchRegionalDomain(tokenUrl)
+      ]);
+
+      const directLineOptions = { token };
+      if (domain) directLineOptions.domain = domain;
+
+      const directLine = window.WebChat.createDirectLine(directLineOptions);
 
       const options = {
         directLine,
