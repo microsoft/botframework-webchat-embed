@@ -197,7 +197,7 @@ You control the widget size via CSS on the container element:
 <script src="https://unpkg.com/botframework-webchat-embed"></script>
 
 <!-- Specific version -->
-<script src="https://cdn.jsdelivr.net/npm/botframework-webchat-embed@1.0.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/botframework-webchat-embed@1.1.0"></script>
 ```
 
 ## License
