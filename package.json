@@ -41,7 +41,7 @@
     "node": ">=16"
   },
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "rollup": "^4.59.0"
   }
 }
