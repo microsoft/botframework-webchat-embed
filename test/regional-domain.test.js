@@ -1,6 +1,7 @@
 import { describe, it, beforeEach, afterEach, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import vm from 'node:vm';
 
 // We need to extract and test the functions from the IIFE.
 // Since the source is an IIFE, we'll eval it in a controlled environment
@@ -10,13 +11,17 @@ import { readFileSync } from 'node:fs';
 function createMockEnv() {
   const elements = [];
   const appendedScripts = [];
+  const innerHTMLWrites = [];
   let fetchMock;
   let createDirectLineCalls = [];
   let renderWebChatCalls = [];
 
-  const mockElement = (attrs = {}) => {
+  const mockElement = (attrs = {}, tagName = 'div') => {
     const attrMap = new Map(Object.entries(attrs));
-    return {
+    const styleProperties = new Map();
+    const element = {
+      tagName,
+      children: [],
       getAttribute: (name) => attrMap.get(name) || null,
       hasAttribute: (name) => attrMap.has(name),
       setAttribute: (name, value) => attrMap.set(name, value),
@@ -27,19 +32,41 @@ function createMockEnv() {
         remove(c) { this._classes.delete(c); },
         contains(c) { return this._classes.has(c); }
       },
-      style: { setProperty() {} },
-      appendChild() {},
-      replaceChild() {},
-      innerHTML: '',
+      style: {
+        properties: styleProperties,
+        setProperty(name, value) { styleProperties.set(name, value); }
+      },
+      appendChild(child) {
+        this.children.push(child);
+        return child;
+      },
+      replaceChild(newChild, oldChild) {
+        const index = this.children.indexOf(oldChild);
+        if (index !== -1) this.children[index] = newChild;
+        return oldChild;
+      },
       textContent: '',
       querySelectorAll() { return []; },
       addEventListener() {}
     };
+
+    let innerHTML = '';
+    Object.defineProperty(element, 'innerHTML', {
+      get() { return innerHTML; },
+      set(value) {
+        innerHTML = value;
+        innerHTMLWrites.push(value);
+      }
+    });
+
+    elements.push(element);
+    return element;
   };
 
   const env = {
     createDirectLineCalls,
     renderWebChatCalls,
+    innerHTMLWrites,
     mockElement,
     setFetch(fn) { fetchMock = fn; },
 
@@ -76,7 +103,7 @@ function createMockEnv() {
           }
         },
         createElement(tag) {
-          return mockElement();
+          return mockElement({}, tag);
         },
         documentElement: {
           // For getComputedStyle
@@ -94,6 +121,31 @@ function createMockEnv() {
 
   return env;
 }
+
+describe('spinner rendering', () => {
+  it('does not interpolate the header background into HTML', async () => {
+    const env = createMockEnv();
+    const payload = '"><img src=x onerror=alert(1)>';
+    const host = env.mockElement({
+      'data-webchat-token-url': 'https://example.test/token',
+      'data-webchat-header-background': payload
+    });
+    const source = readFileSync(new URL('../src/index.js', import.meta.url), 'utf8');
+
+    vm.runInNewContext(source, env.globals);
+    await env.globals.window.WebChatEmbed.initElement(host);
+
+    const container = host.children[1];
+    const chatContainer = container.children[1];
+    const loading = chatContainer.children[0];
+    const spinner = loading.children[0];
+
+    assert.equal(loading.className, 'webchat-embed-loading');
+    assert.equal(spinner.className, 'webchat-embed-spinner');
+    assert.equal(spinner.style.properties.get('--webchat-header-bg'), payload);
+    assert.equal(env.innerHTMLWrites.some(value => value.includes(payload)), false);
+  });
+});
 
 // Since the IIFE assigns to window.WebChatEmbed and uses global fetch,
 // we test by directly extracting the logic patterns.
