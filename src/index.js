@@ -474,7 +474,16 @@
 
     // Helper to show spinner
     function showSpinner(container) {
-      container.innerHTML = `<div class="webchat-embed-loading"><div class="webchat-embed-spinner" style="--webchat-header-bg: ${headerBg}"></div></div>`;
+      const loading = document.createElement('div');
+      loading.className = 'webchat-embed-loading';
+
+      const spinner = document.createElement('div');
+      spinner.className = 'webchat-embed-spinner';
+      spinner.style.setProperty('--webchat-header-bg', headerBg);
+
+      loading.appendChild(spinner);
+      container.textContent = '';
+      container.appendChild(loading);
     }
 
     // Create chat area
